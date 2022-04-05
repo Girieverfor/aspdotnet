@@ -1,7 +1,8 @@
 node {
-    def built_img = ''
     stage('Checkout git repo') {
-      git branch: 'master', url: params.git_repo
+      sh(script: "cd /opt/AspNetCore-Sample, returnStdout: true)
+      sh(script: "sudo git stash, returnStdout: true)
+      sh(script: "sudo git pull, returnStdout: true)
     }
      stage('Build and push Docker image') {
       sh(script: "sudo docker build -t 9011603079/testing-repo:customerapi -f src/CustomersAPI/Dockerfile .", returnStdout: true)
