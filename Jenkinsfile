@@ -14,8 +14,8 @@ sudo git pull origin main'''
         stage('Code commit status') {
           steps {
             sh '''cd /opt/aspdotnet
-sudo export GIT_COMMIT=$(git rev-parse --short HEAD)
-sudo echo $GIT_COMMIT'''
+export GIT_COMMIT=$(git rev-parse --short HEAD)
+echo $GIT_COMMIT'''
           }
         }
 
