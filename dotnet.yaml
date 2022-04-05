@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customermvc
+  namespace: stag
+  labels:
+    app: customermvc
+spec:
+  selector:
+    matchLabels:
+      app: customermvc
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: customermvc
+        tier: frontend
+    spec:
+      containers:
+      - name: customermvc
+        image: 9011603079/testing-repo:customermvc
+        resources:
+          limits:
+            cpu: 10m
+            memory: 50Mi
+          requests:
+            cpu: 5m
+            memory: 50Mi
+      imagePullSecrets:
+      - name: regcred
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customerapi
+  namespace: stag
+  labels:
+    app: customerapi
+spec:
+  selector:
+    matchLabels:
+      app: customerapi
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: customerapi
+        tier: frontend
+    spec:
+      containers:
+      - name: customerapi
+        image: 9011603079/testing-repo:customerapi
+        resources:
+          limits:
+            cpu: 10m
+            memory: 50Mi
+          requests:
+            cpu: 5m
+            memory: 50Mi
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customermvc
+  namespace: stag
+  labels:
+    app: customermvc
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      nodePort: 30065
+      targetPort: 80
+  selector:
+    app:  customermvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customerapi
+  namespace: stag
+  labels:
+    app: customerapi
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      nodePort: 30066
+      targetPort: 80
+  selector:
+    app:  customerapi
