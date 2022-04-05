@@ -52,7 +52,9 @@ sudo docker push 9011603079/testing-repo:customermvc'''
 
     stage('Deploy into k8s') {
       steps {
-        sh 'sudo kubectl apply -f /opt/AspNetCore-Sample/dotnet.yaml'
+        sh '''sudo kubectl rollout restart deployment/customerapi -n stag
+sudo kubectl rollout restart deployment/customermvc -n stag
+'''
       }
     }
 
