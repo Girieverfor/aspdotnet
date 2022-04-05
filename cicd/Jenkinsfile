@@ -5,9 +5,7 @@ node {
       sh(script: "sudo docker build -t 9011603079/testing-repo:customermvc -f src/CustomersMVC/Dockerfile .", returnStdout: true)
       sh(script: "sudo docker push 9011603079/testing-repo:customermvc", returnStdout: true)
     }
-    stage('Unit Tests') {
-      sh 'echo test'
-    }
+   
     stage('Browser Tests'){
         parallel(
             "Edge":{sh 'echo test'},
